@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/all_backcolor" >
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="昵称 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_nickname"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_registration_head"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/item_selector"
+                android:clickable="true"
+                android:focusable="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="头像 " />
+
+                <ImageView
+                    android:id="@+id/im_registration_head"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/im_arrow"
+                    android:background="@drawable/ic_launcher" />
+
+                <ImageView
+                    android:id="@+id/im_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/arrow_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="用户名 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_user_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_id"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="密码 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_password"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:inputType="textPassword"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_password_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="确认密码 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_password_again"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_password_again"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:inputType="textPassword"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="真实姓名 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_user_name"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="性别 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_sex"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_professional"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="专业 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_professional"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_professional"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="年级 ：" />
+
+                <EditText
+                    android:id="@+id/et_registration_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_grade"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+

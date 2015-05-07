@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- 普通用户部分 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/all_backcolor"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="昵称 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_nickname"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_account_head"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/item_selector"
+                android:clickable="true"
+                android:focusable="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="头像 " />
+
+                <ImageView
+                    android:id="@+id/im_account_head"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/im_arrow"
+                    android:background="@drawable/ic_launcher" />
+
+                <ImageView
+                    android:id="@+id/im_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/arrow_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="真实姓名 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_user_name"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="性别 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_sex"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_professional"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="专业 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_professional"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_professional"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="年级 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_grade"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- 社团用户部分 -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/all_backcolor"
+        android:visibility="invisible" >
+
+        <LinearLayout
+            android:id="@+id/linear4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="昵称 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_oNickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_nickname"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_account_oHead"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/item_selector"
+                android:clickable="true"
+                android:focusable="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="头像 " />
+
+                <ImageView
+                    android:id="@+id/im_account_oHead"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/im_arrow2"
+                    android:background="@drawable/ic_launcher" />
+
+                <ImageView
+                    android:id="@+id/im_arrow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/arrow_more" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linear4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="真实姓名 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_oName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_name"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/all_backcolor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp" >
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="联系方式 ：" />
+
+                <TextView
+                    android:id="@+id/tv_account_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/tv_phone"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/all_backcolor" >
+
+        <include
+            android:id="@+id/registration_ordinary"
+            layout="@layout/fragment_registration_ordinary_layout" >
+        </include>
+
+        <Button
+            android:id="@+id/bt_registration"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/registration_ordinary"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/normal_button_selector"
+            android:gravity="center"
+            android:text="注		册"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</ScrollView>

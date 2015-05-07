@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CampusNews</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="please">请选择</string>
+    <string name="all_news">全部</string>
+    <string name="lost_news">失物认领</string>
+    <string name="association_news">社团</string>
+    <string name="personal_news">个人</string>
+    <string name="participate_news">参与</string>
+    <string name="news_news">消息</string>
+    <string name="own_news">我</string>
+    
+    
+   
+</resources>

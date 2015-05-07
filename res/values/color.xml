@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="login_button">#A7D79B</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="darkred">#8B0000</color>
+    <color name="firebrickred">#B22222</color>
+    <color name="bule">#0000ff</color>
+    <color name="black">#000000</color>
+    <color name="green">#00ff00</color>
+    <color name="darkgreen">#228B22</color>
+    <color name="transparent">#00000000</color>
+    <color name="all_backcolor">#EBEBED</color>
+    <color name="title_bg">#00A154</color>
+    <color name="registration_mark_bg">#D2D2D4</color>
+    <color name="registration_mark_bg_selected">#00A154</color>
+    <color name="item_selected">#86E9F2</color>
+
+</resources>
