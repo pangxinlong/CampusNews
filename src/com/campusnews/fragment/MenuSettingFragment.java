@@ -1,5 +1,7 @@
 package com.campusnews.fragment;
 
+import java.util.HashMap;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -12,10 +14,16 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.campusnewes.bean.AccountBean;
 import com.campusnews.ChangeAccountActivity;
 import com.campusnews.R;
 import com.campusnews.annotation.AndroidView;
+import com.campusnews.model.JsonObjectRequestBase;
+import com.campusnews.model.UserInfo;
 import com.campusnews.util.BaseApplication;
+import com.campusnews.util.StaticUrl;
+
+import de.greenrobot.event.EventBus;
 
 public class MenuSettingFragment extends BaseFragment implements OnClickListener {
 
@@ -35,7 +43,7 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
   @AndroidView(R.id.btn_sign_out)
   Button btnSignOut;
 
-
+  AccountBean accountData;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +55,7 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    EventBus.getDefault().register(this);
     initView();
   }
 
@@ -63,7 +72,8 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
   @Override
   public void onClick(View view) {
     switch (view.getId()) {
-      case R.id.rl_account:ChangeAccountActivity.intoChangeAccountActivity(this.getActivity());
+      case R.id.rl_account:
+        requestData();
         ;
         break;
       case R.id.rl_about:
@@ -79,6 +89,26 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
 
   }
 
+  private void requestData() {
+
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("user_id", UserInfo.userId);
+
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this.getActivity(), params, StaticUrl.Query_acount);
+    jsonObjectRequestBase.makeSampleHttpRequest(AccountBean.class);
+  }
+
+
+  public void onEvent(AccountBean accountData) {
+    if (accountData.isSucceed()) {
+      this.accountData = accountData;
+      UserInfo.userName = accountData.result.get(0).name;
+      UserInfo.userId=accountData.result.get(0).user_id;
+      UserInfo.userType = accountData.result.get(0).type;
+      ChangeAccountActivity.intoChangeAccountActivity(this.getActivity(), accountData);
+    }
+  }
 
   /**
    * 退出
@@ -107,4 +137,14 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
 
     return version;
   }
+
+
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    EventBus.getDefault().unregister(this);
+  }
+  
+  
 }

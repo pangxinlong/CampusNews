@@ -1,9 +1,14 @@
 package com.campusnews.util;
 
 public class StaticUrl {
-  /** 基本url */
-  private static String baseUlr = "http://192.168.0.3:8888/";
 
+  public static String IP = "110";
+
+  /** 基本url */
+  public static String baseUlr = "http://192.168.0." + IP + ":8888/";
+
+  /** 图片服务器url */
+  public static String baseImageUlr = "http://192.168.0." + IP + ":8889";
 
   /** 接口——登录 */
   public static String LoginUrl = baseUlr + "login";

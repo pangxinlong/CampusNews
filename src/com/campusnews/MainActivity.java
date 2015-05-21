@@ -1,9 +1,15 @@
 package com.campusnews;
 
+import java.lang.ref.WeakReference;
+
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,11 +25,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.campusnews.fragment.MenuFragmentFactory;
 import com.campusnews.fragment.MenuNewsFragment;
 import com.campusnews.util.BaseApplication;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.common.Constants;
+
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends BaseActivity implements
@@ -37,6 +49,10 @@ public class MainActivity extends BaseActivity implements
 	private String titleString;
 	private int iSelect = -1;
 	private View heandrView;
+	
+	  private MsgReceiver updateListViewReceiver;
+	  private Context context;
+	  Message m = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +69,45 @@ public class MainActivity extends BaseActivity implements
 		fragment.setArguments(args);
 		FragmentManager fm = getSupportFragmentManager();
 		fm.beginTransaction().replace(R.id.frame_content, fragment).commit();
+		
+		
+		//注册推送服务
+		   context = this;
+		    XGPushConfig.enableDebug(this, true);
+		 // 0.注册数据更新监听器
+		    updateListViewReceiver = new MsgReceiver();
+		    IntentFilter intentFilter = new IntentFilter();
+		    intentFilter.addAction("com.xgtest.UPDATE_LISTVIEW");
+		    registerReceiver(updateListViewReceiver, intentFilter);
+		    
+		 // 1.获取设备Token
+		    Handler handler = new HandlerExtension(MainActivity.this);
+		    m = handler.obtainMessage();
+		    
+		    
+		 // 注册接口
+		    XGPushManager.registerPush(getApplicationContext(),
+		            new XGIOperateCallback() {
+		                @Override
+		                public void onSuccess(Object data, int flag) {
+		                    Log.w(Constants.LogTag,
+		                            "+++ register push sucess. token:" + data);
+		                    m.obj = "+++ register push sucess. token:" + data;
+		                    m.sendToTarget();
+		                }
+
+		                @Override
+		                public void onFail(Object data, int errCode, String msg) {
+		                    Log.w(Constants.LogTag,
+		                            "+++ register push fail. token:" + data
+		                                    + ", errCode:" + errCode + ",msg:"
+		                                    + msg);
+
+		                    m.obj = "+++ register push fail. token:" + data
+		                            + ", errCode:" + errCode + ",msg:" + msg;
+		                    m.sendToTarget();
+		                }
+		            });
 	}
 
 	// 初始化
@@ -176,9 +231,54 @@ public class MainActivity extends BaseActivity implements
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
+	private static class HandlerExtension extends Handler {
+	    WeakReference<MainActivity> mActivity;
+
+	    HandlerExtension(MainActivity activity) {
+	        mActivity = new WeakReference<MainActivity>(activity);
+	    }
+
+	    @Override
+	    public void handleMessage(Message msg) {
+	        super.handleMessage(msg);
+	        MainActivity theActivity = mActivity.get();
+	        if (theActivity == null) {
+	            theActivity = new MainActivity();
+	        }
+//	        if (msg != null) {
+//	            Log.w(Constants.LogTag, msg.obj.toString());
+//	            TextView textView = (TextView) theActivity
+//	                   .findViewById(R.id.deviceToken);
+//	            textView.setText(XGPushConfig.getToken(theActivity));
+//	        }
+	      //   XGPushManager.registerCustomNotification(theActivity,
+	      //   "BACKSTREET", "BOYS", System.currentTimeMillis() + 5000, 0);
+	    }
+	}
+	
+	
+	
+	public class MsgReceiver extends BroadcastReceiver {
+
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	        // TODO Auto-generated method stub
+	      Log.i("＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝","接收到推送消息");
+	      //  allRecorders = notificationService.getCount();
+	      //  getNotificationswithouthint(id);
+	    }
+	}
 	
 	public static void intoMainActivity(Context context){
 	  Intent intent=new Intent(context,MainActivity.class);
 	  context.startActivity(intent);
 	}
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    unregisterReceiver(updateListViewReceiver);
+  }
+	
+	
 }

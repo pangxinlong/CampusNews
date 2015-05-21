@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +30,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.campusnewes.bean.RegistrationBean;
+import com.campusnewes.bean.RootPojo;
+import com.campusnews.BaseActivity;
+import com.campusnews.LoginActivity;
 import com.campusnews.R;
 import com.campusnews.annotation.AndroidAutowire;
 import com.campusnews.annotation.AndroidView;
 import com.campusnews.model.ImageUploadRequestBase;
+import com.campusnews.model.JsonObjectRequestBase;
+import com.campusnews.model.UserInfo;
 import com.campusnews.util.EventBusObject.PictureData;
 import com.campusnews.util.PhoneUtils;
 import com.campusnews.util.SelectImageHelper;
+import com.campusnews.util.StaticUrl;
 import com.campusnews.util.ToastUtil;
+
+import de.greenrobot.event.EventBus;
 
 public class RegistrationOrdinaryFragment extends BaseFragment implements OnClickListener {
 
@@ -94,8 +104,9 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
   String professional;// 专业
   String sex;// 性别
   String grade; // 年级
-  int type=0;   //用户类型
-  int state;    //用户账号状态
+  int type; // 用户类型
+  int state; // 用户账号状态
+  String picPath = "/Users/password/Myjs/Test/RequireDemo/TestWithCanshu/image";// 图片路径
 
   Button btnPhoto;// 相册
   Button btnCamera;// 相机
@@ -123,9 +134,14 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     initView();
+
   }
 
   public void initView() {
+    EventBus.getDefault().register(this);
+
+    Bundle bundle = this.getArguments();
+    state = bundle.getInt("userType");
     rlRegistration_head.setOnClickListener(this);
     btRegistration.setOnClickListener(this);
   }
@@ -137,14 +153,15 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
         showDialog();
         break;
       case R.id.bt_registration:
-       // Log.i("======checkFormat()========",checkFormat()+"");
-       // if (checkFormat()) {
+        // Log.i("======checkFormat()========",checkFormat()+"");
+
         if (!PhoneUtils.isNetAvailable()) {
           ToastUtil.show("请检查您的网络");
           return;
         }
+        if (checkFormat()) {
           getImageParams(picFile);
-       // }
+        }
         break;
       case R.id.btn_photo:
         doHandlerPhoto(PIC_FROM＿LOCALPHOTO);
@@ -153,11 +170,9 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
       case R.id.btn_camera:
         doHandlerPhoto(PIC_FROM_CAMERA);
         dialog.cancel();
-        ;
         break;
       case R.id.btn_cancel:
         dialog.cancel();
-        ;
         break;
       default:
         break;
@@ -182,15 +197,7 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
     }
   }
 
-  // 获取时间long
-  private long getCurrentData() {
-
-    long curTime;
-    java.util.Date currentDate = new java.util.Date();
-    curTime = currentDate.getTime();
-    Log.i("=========curTime======long========", "" + curTime);
-    return curTime;
-  }
+ 
 
 
   /**
@@ -206,7 +213,7 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
         pictureFileDir.mkdirs();
       }
       // 为图片命名
-      picName = UserId + String.valueOf(getCurrentData()) + ".jpeg";// getCurrentData()+"upload";
+      picName = UserId + String.valueOf(PhoneUtils.getCurrentData()) + ".jpeg";// getCurrentData()+"upload";
       Log.i("=========picName==============", "" + picName);
       picFile = new File(pictureFileDir, picName);
       if (!picFile.exists()) {
@@ -396,8 +403,46 @@ public class RegistrationOrdinaryFragment extends BaseFragment implements OnClic
     return true;
   }
 
+  /**
+   * 发送注册信息
+   */
+  private void requestData() {
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("user_id", userId);
+    params.put("pwd", password);
+    params.put("nickname", nickname);
+    params.put("name", userName);
+    params.put("sex", sex);
+    params.put("professional", professional);
+    params.put("type", String.valueOf(state));
+    params.put("state", "0");
+    params.put("icon_path", picPath);
+    params.put("contact_information", "");
+    params.put("grade", grade);
+
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this.getActivity(), params,StaticUrl.RegistrationUrl);
+    jsonObjectRequestBase.makeSampleHttpRequest(RegistrationBean.class);
+  }
+
+  public void onEvent(PictureData data) {
+    picPath = data.picPath;
+   // if (data.state.equals("0")) {
+      requestData();
+   // }
+  }
+
+  public void onEvent(RegistrationBean data) {
+    if (data.isSucceed()) {
+      ToastUtil.show("注册成功！");
+      UserInfo.userName=userName;
+      LoginActivity.intoLoginActivity(this.getActivity());
+    }
+  }
+
   @Override
   public void onDestroyView() {
+    EventBus.getDefault().unregister(this);
     super.onDestroyView();
   }
 }

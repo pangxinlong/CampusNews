@@ -2,8 +2,10 @@ package com.campusnews.fragment;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,15 +24,24 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.campusnewes.bean.ActivitiesListBean;
+import com.campusnewes.bean.LoginBean;
+import com.campusnewes.bean.ActivitiesListBean.ActivitiesListData;
 import com.campusnews.NewDetailActivity;
 import com.campusnews.R;
 import com.campusnews.adapter.FragmentNewsHeaderAdapter;
 import com.campusnews.adapter.FragmentNewsListViewAdapter;
 import com.campusnews.annotation.AndroidView;
+import com.campusnews.model.JsonObjectRequestBase;
+import com.campusnews.model.UserInfo;
+import com.campusnews.util.StaticUrl;
+import com.campusnews.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
+import de.greenrobot.event.EventBus;
 
 public class FragmentNews extends BaseFragment {
 
@@ -48,9 +59,19 @@ public class FragmentNews extends BaseFragment {
 
   public boolean isLoop = true;
 
+  // 活动类型
+  private int activityType;
+  private static final String news="";
+  
+  
+  List<ActivitiesListData> listData = new ArrayList<ActivitiesListData>();
+
   // 图片下面的小圆点
   private int[] listbutton = {R.id.imageView1, R.id.imageView2, R.id.imageView3};
   List<Integer> list;
+  
+  
+  public  int mPage=UserInfo.mPage;//消息条数
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,30 +85,89 @@ public class FragmentNews extends BaseFragment {
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Bundle data = this.getArguments();
-    location = data.getInt("position");
-    // if(id==1){
-    // setUserVisibleHint(true);
-    // }
-    initData();
+    EventBus.getDefault().register(this);
+    ;
     initView();
-    setAdapter();
-
-    // mAdapter.notifyDataSetChanged();
+    setMyAdapter();
   }
 
+  
+  
   @Override
-  protected void initData() {
-    //图片数据
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // 图片数据
     list = new ArrayList<Integer>();
     list.add(R.drawable.img1);
     list.add(R.drawable.img2);
     list.add(R.drawable.img3);
-
-    automaticSwitch();
   }
 
-  // 实现header自动切换功能
+
+
+  @Override
+  protected void initData() {
+    Bundle data = this.getArguments();
+    activityType = data.getInt("position");
+
+
+    requestData();
+    automaticSwitch();
+
+  }
+
+
+  /**
+   * 请求数据
+   */
+  private void requestData() {
+
+    HashMap<String, String> params = new HashMap<String, String>();
+    switch (activityType) {
+      case 0:
+        ;
+        break;
+      case 1:
+        params.put("type","1");
+        break;
+      case 2:
+        params.put("type", "0");
+        break;
+      case 3:
+        params.put("activity_type", "2");
+        break;
+      case 4:
+        params.put("activity_type", "1");
+        break;
+      case 5:
+        params.put("activity_type", "0");
+        break;
+      default:
+        break;
+    }
+
+    // params.put("user_id", user_id);
+    // params.put("pwd", pwd);
+    params.put("pageposition", String.valueOf(mPage));
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this.getActivity(), params, StaticUrl.Query_activityUrl);
+    jsonObjectRequestBase.makeSampleHttpRequest(ActivitiesListBean.class);
+
+  }
+
+
+  public void onEvent(ActivitiesListBean listData) {
+
+    if (listData.isSucceed()) {
+      this.listData = listData.result;
+      mAdapter.setData(this.listData);
+      mPage=mPage+5;
+    }
+  }
+
+  /**
+   * 实现header自动切换功能
+   */
   private void automaticSwitch() {
     new Thread(new Runnable() {
 
@@ -99,7 +179,6 @@ public class FragmentNews extends BaseFragment {
           message.obj = position++;
           message.what = location;
           handler.sendMessage(message);
-          Log.i("=============message==========", "" + location);
           if (position >= list.size()) {
             position = 0;
           }
@@ -121,7 +200,9 @@ public class FragmentNews extends BaseFragment {
   };
 
   private void initView() {
-    //设置header
+    UserInfo.isNews=0;
+    
+    // 设置header
     headerView =
         (ViewGroup) LayoutInflater.from(this.getActivity()).inflate(
             R.layout.fragment_news_list_header, null);
@@ -139,24 +220,47 @@ public class FragmentNews extends BaseFragment {
         if (radioGroup.getCheckedRadioButtonId() != listbutton[postion]) {// %listbutton.length
           ((RadioButton) (headerView.findViewById(listbutton[postion]))).setChecked(true);// %listbutton.length
         }
-
       }
 
       @Override
-      public void onPageScrolled(int arg0, float arg1, int arg2) {
-        // TODO Auto-generated method stub
-
-      }
+      public void onPageScrolled(int arg0, float arg1, int arg2) {}
 
       @Override
-      public void onPageScrollStateChanged(int arg0) {
-        // TODO Auto-generated method stub
-
-      }
+      public void onPageScrollStateChanged(int arg0) {}
     });
 
+    // 添加list点击响应
+    pull_refresh_list.setOnItemClickListener(new OnItemClickListener() {
 
-    // 设置下拉刷新和上拉加载更多
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if(listData!=null){
+        ToastUtil.show(position+"");
+        NewDetailActivity.intoNewDetailActivity(FragmentNews.this.getActivity(),listData.get(position-2));
+        }
+      }
+    });
+  }
+
+  /**
+   * 设置adater
+   */
+  private void setMyAdapter() {
+    ListView actualListView = pull_refresh_list.getRefreshableView();
+
+    // Need to use the Actual ListView when registering for Context Menu
+    registerForContextMenu(actualListView);
+
+    // mListItems = new LinkedList<String>();
+    // mListItems.addAll(Arrays.asList(mStrings));
+    actualListView.addHeaderView(headerView);
+    mAdapter = new FragmentNewsListViewAdapter(this.getActivity());
+    actualListView.setAdapter(mAdapter);
+    
+
+    /**
+     * 设置下拉刷新和上拉加载更多
+     */
     pull_refresh_list.setPullToRefreshOverScrollEnabled(true);
     pull_refresh_list.setMode(Mode.BOTH);
 
@@ -178,45 +282,28 @@ public class FragmentNews extends BaseFragment {
           // Do work to refresh the list here.
           new GetDataTask().execute();
         } else {
+          requestData();
           Log.i("", "上拉加载更多... ");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setPullLabel("");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setRefreshingLabel("正在加载...");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
           // y = mListItems.size();
-
           new GetHeaderDataTask().execute();
 
         }
       }
     });
-    
-    //添加list点击响应
-    pull_refresh_list.setOnItemClickListener(new OnItemClickListener() {
 
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NewDetailActivity.intoNewDetailActivity(FragmentNews.this.getActivity());
-        
-      }});
-  }
-
-  private void setAdapter() {
-    ListView actualListView = pull_refresh_list.getRefreshableView();
-
-    // Need to use the Actual ListView when registering for Context Menu
-    registerForContextMenu(actualListView);
-
-    // mListItems = new LinkedList<String>();
-    // mListItems.addAll(Arrays.asList(mStrings));
-    actualListView.addHeaderView(headerView);
-    mAdapter = new FragmentNewsListViewAdapter(this.getActivity());
-    actualListView.setAdapter(mAdapter);
   }
 
 
 
-  // 下拉加载数据
+  /**
+   * 下拉加载数据
+   * 
+   * @author password
+   */
   private class GetDataTask extends AsyncTask<Void, Void, String[]> {
 
     @Override
@@ -239,7 +326,11 @@ public class FragmentNews extends BaseFragment {
     }
   }
 
-  // 上拉加载数据
+  /**
+   * 上拉加载数据
+   * 
+   * @author password
+   */
   private class GetHeaderDataTask extends AsyncTask<Void, Void, String[]> {
 
     @Override
@@ -270,11 +361,23 @@ public class FragmentNews extends BaseFragment {
       "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
       "Allgauer Emmentaler"};
 
+
   @Override
   public void onStop() {
     super.onStop();
     handler.removeMessages(0);
     isLoop = false;
+    EventBus.getDefault().unregister(this);
   }
+
+
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    
+  }
+  
+  
 
 }

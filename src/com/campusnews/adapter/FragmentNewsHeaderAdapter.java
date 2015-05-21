@@ -25,7 +25,6 @@ public class FragmentNewsHeaderAdapter extends PagerAdapter implements BasePager
 
   @Override
   public int getIconResId(int index) {
-    // TODO Auto-generated method stub
     return 0;
   }
 

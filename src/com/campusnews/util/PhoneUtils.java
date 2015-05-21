@@ -41,4 +41,17 @@ public class PhoneUtils {
       return null;
     }
   }
+  
+  
+  /**
+   * 获取时间long
+   * @return
+   */
+  public static  long getCurrentData() {
+
+    long curTime;
+    java.util.Date currentDate = new java.util.Date();
+    curTime = currentDate.getTime();
+    return curTime;
+  }
 }

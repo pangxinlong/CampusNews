@@ -4,19 +4,23 @@ package com.campusnews.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.campusnews.BaseActivity;
-
-import android.app.Activity;
 import android.app.Application;
 import android.os.Handler;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.campusnews.BaseActivity;
+
 public class BaseApplication extends Application{
+  
+    public static RequestQueue mQueue;
 	public static BaseApplication self = null;
 	public Handler handlerCommon = new Handler();
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		self = this;
+		mQueue = Volley.newRequestQueue(BaseApplication.self);
 	}
 	
 	private List<BaseActivity> mainActivity = new ArrayList<BaseActivity>();  

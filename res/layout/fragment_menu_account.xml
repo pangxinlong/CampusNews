@@ -7,6 +7,7 @@
     <!-- 普通用户部分 -->
 
     <RelativeLayout
+        android:id="@+id/rl_putong"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/all_backcolor"
@@ -214,9 +215,11 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
+
     <!-- 社团用户部分 -->
 
     <RelativeLayout
+        android:id="@+id/rl_shetuan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/all_backcolor"
@@ -237,7 +240,7 @@
                 android:layout_height="50dp" >
 
                 <TextView
-                    android:id="@+id/tv_nickname"
+                    android:id="@+id/tv_oNickname"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
@@ -250,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@+id/tv_nickname"
+                    android:layout_toRightOf="@+id/tv_oNickname"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:paddingLeft="20dp" />

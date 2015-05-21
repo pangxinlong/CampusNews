@@ -40,6 +40,7 @@ public class MenuNewsFragment extends BaseFragment {
     super.onViewCreated(view, savedInstanceState);
     pagerViewPagerAdapter = new PagerViewPagerAdapter(getChildFragmentManager());
     viewpager.setAdapter(pagerViewPagerAdapter);
+    viewpager.setOffscreenPageLimit(3);
     viewpager.setOnPageChangeListener(new OnPageChangeListener() {
       
       @Override

@@ -2,8 +2,9 @@ package com.campusnews;
 
 import java.util.HashMap;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.campusnewes.bean.LoginBean;
 import com.campusnewes.bean.RootPojo;
 import com.campusnews.annotation.AndroidView;
 import com.campusnews.model.JsonObjectRequestBase;
-import com.campusnews.util.BaseApplication;
+import com.campusnews.model.UserInfo;
+import com.campusnews.util.StaticUrl;
 import com.campusnews.util.ToastUtil;
 
 import de.greenrobot.event.EventBus;
@@ -88,14 +91,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
   }
 
   public void requestData() {
-    JsonObjectRequestBase jsonObjectRequestBase = new JsonObjectRequestBase(this, params);
-    jsonObjectRequestBase.makeSampleHttpRequest(RootPojo.class);
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this, params, StaticUrl.LoginUrl);
+    jsonObjectRequestBase.makeSampleHttpRequest(LoginBean.class);
   }
 
-  public void onEvent(RootPojo response) {
+  public void onEvent(LoginBean response) {
 
     if (response.isSucceed()) {
       ToastUtil.show("登录成功", Toast.LENGTH_SHORT);
+      UserInfo.userId = user_id;
+      UserInfo.loginState=0;//记录登录状态
       MainActivity.intoMainActivity(this);
     } else {
       ToastUtil.show(response.message, Toast.LENGTH_SHORT);
@@ -106,8 +112,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.bt_login:
-        MainActivity.intoMainActivity(this);
-        // loadData();
+        // MainActivity.intoMainActivity(this);
+        loadData();
         break;
       case R.id.bt_register:
         RegistrationActivity.intoRegistrationActivity(this);
@@ -122,6 +128,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
   }
 
+
+  public static void intoLoginActivity(Context context) {
+    Intent intent = new Intent();
+    intent.setClass(context, LoginActivity.class);
+    context.startActivity(intent);
+  }
 
   @Override
   protected void onDestroy() {

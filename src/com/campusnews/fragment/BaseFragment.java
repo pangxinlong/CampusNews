@@ -46,7 +46,7 @@ public class BaseFragment extends Fragment {
    */
   private void showData() {
     if (isInit) {
-      // isInit = false;// 加载数据完成
+       isInit = false;// 加载数据完成
       // 加载各种数据
       initData();
     }

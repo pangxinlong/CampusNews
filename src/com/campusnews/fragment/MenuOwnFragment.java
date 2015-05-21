@@ -1,5 +1,7 @@
 package com.campusnews.fragment;
 
+import java.util.HashMap;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -11,14 +13,21 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.campusnewes.bean.ActivitiesListBean;
 import com.campusnews.NewDetailActivity;
 import com.campusnews.R;
 import com.campusnews.adapter.FragmentNewsListViewAdapter;
 import com.campusnews.annotation.AndroidView;
+import com.campusnews.model.JsonObjectRequestBase;
+import com.campusnews.model.UserInfo;
+import com.campusnews.util.StaticUrl;
+import com.campusnews.util.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
+import de.greenrobot.event.EventBus;
 
 public class MenuOwnFragment extends BaseFragment {
 
@@ -26,21 +35,25 @@ public class MenuOwnFragment extends BaseFragment {
   PullToRefreshListView pull_refresh_list;
 
   private FragmentNewsListViewAdapter mAdapter;
+  ActivitiesListBean listData;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     return inflater.inflate(R.layout.fragment_menu_own, container, false);
   }
 
-
-
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    EventBus.getDefault().register(this);
     initView();
     setAdapter();
+    requestData();
   }
 
+  /**
+   * 设置adapter
+   */
   private void setAdapter() {
     ListView actualListView = pull_refresh_list.getRefreshableView();
 
@@ -53,11 +66,18 @@ public class MenuOwnFragment extends BaseFragment {
 
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        NewDetailActivity.intoNewDetailActivity(getActivity());
-      }});
+        if(listData!=null){
+          ToastUtil.show(position+"");
+          NewDetailActivity.intoNewDetailActivity(MenuOwnFragment.this.getActivity(),listData.result.get(position-1));
+          }
+      }
+    });
   }
 
-  private void initView() {
+  /**
+   * 初始化数据
+   */
+  private void initView() {    
     // 设置下拉刷新和上拉加载更多
     pull_refresh_list.setPullToRefreshOverScrollEnabled(true);
     pull_refresh_list.setMode(Mode.BOTH);
@@ -92,12 +112,20 @@ public class MenuOwnFragment extends BaseFragment {
         }
       }
     });
+    
+    
+
 
   }
 
 
 
-  // 下拉加载数据
+  /**
+   * 下拉加载数据
+   * 
+   * @author password
+   *
+   */
   private class GetDataTask extends AsyncTask<Void, Void, String> {
 
     @Override
@@ -120,7 +148,12 @@ public class MenuOwnFragment extends BaseFragment {
     }
   }
 
-  // 上拉加载数据
+  /**
+   * 上拉加载数据
+   * 
+   * @author password
+   *
+   */
   private class GetHeaderDataTask extends AsyncTask<Void, Void, String> {
 
     @Override
@@ -143,6 +176,30 @@ public class MenuOwnFragment extends BaseFragment {
     }
   }
 
+  /**
+   * 请求数据
+   */
+  private void requestData() {
 
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("user_id", UserInfo.userId);
 
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this.getActivity(), params, StaticUrl.Query_activityUrl);
+    jsonObjectRequestBase.makeSampleHttpRequest(ActivitiesListBean.class);
+  }
+  
+  
+  public void onEvent(ActivitiesListBean listData){
+    if (listData.isSucceed()) {
+      this.listData=listData;
+      mAdapter.setData(listData.result);
+    }
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    EventBus.getDefault().unregister(this);
+  }
 }

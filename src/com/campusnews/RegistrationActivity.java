@@ -27,7 +27,8 @@ import de.greenrobot.event.EventBus;
 public class RegistrationActivity extends BaseActivity implements OnClickListener {
 
   private static String mpicPath = null;
-
+  
+  
   /** 普通用户 */
   @AndroidView(R.id.tv_registration_ordinary)
   TextView tvRegistration_ordinary;

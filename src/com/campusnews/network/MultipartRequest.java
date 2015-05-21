@@ -47,7 +47,6 @@ public class MultipartRequest extends Request<JSONObject> {
 			String uploadName, Map<String, String> mStringPart) {
 		super(Method.POST, url, errorListener);
 		
-		Log.i("===========url===========", url);
 		FILE_PART_NAME = uploadName;
 		mListener = listener;
 		mFilePart = file;

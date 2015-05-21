@@ -8,7 +8,7 @@
     <EditText
         android:id="@+id/et_activity_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@null"
         android:hint="标题(必填)"
         android:paddingLeft="10dp"
@@ -22,27 +22,27 @@
         android:background="@color/all_backcolor" />
 
     <TextView
-        android:id="@+id/et_release_people"
+        android:id="@+id/tv_release_people"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/im_divider1"
         android:background="@null"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="发布人"
+        android:hint="发布人"
         android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/im_divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/et_release_people"
+        android:layout_below="@+id/tv_release_people"
         android:background="@color/all_backcolor" />
 
     <EditText
         android:id="@+id/et_activity_content"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="150dp"
         android:layout_below="@+id/im_divider2"
         android:background="@null"
         android:gravity="top|left"
@@ -62,36 +62,67 @@
         android:id="@+id/rl_activity_image"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:clickable="true"
+        android:layout_below="@+id/im_divider3"
         android:background="@drawable/item_selector"
-        android:layout_below="@+id/im_divider3" >
+        android:clickable="true" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="添加图片"/>
-        
+            android:text="添加图片" />
+
         <ImageView
             android:id="@+id/im_activity_image"
             android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
             android:textSize="15sp" />
     </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_contact_information"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_activity_type"
+        android:background="@null"
+        android:hint="请输入联系方式"
+        android:paddingLeft="10dp"
+        android:textSize="15sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_activity_type"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_activity_image"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="(活动/消息)类型"
+        android:textColor="#454545" />
+
+    <Spinner
+        android:id="@+id/sr_activity_type"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_activity_image"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_activity_type" />
 
     <Button
         android:id="@+id/btn_release"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/normal_button_selector"
-        android:text="发		布" />
+        android:text="发		布"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

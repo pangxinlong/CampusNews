@@ -26,6 +26,7 @@
         android:layout_height="60dp"
         android:gravity="center"
         android:textSize="20sp"
+        android:textColor="@color/black"
         android:text="标题" />
 
     <ImageView
@@ -44,6 +45,7 @@
             android:layout_alignParentLeft="true"
             android:text="发布人"
             android:textSize="@dimen/normal_textsize"
+            android:textColor="@color/black"
             android:gravity="center_vertical|left" />
 
         <TextView
@@ -52,15 +54,15 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical|right" 
-            android:textSize="@dimen/normal_textsize"
+            android:textSize="15sp"
+            android:textColor="@color/black"
             android:text="发布时间" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/im_newsdetail"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/img3" />
+        android:layout_height="150dp"/>
 
     <TextView
         android:id="@+id/tv_content"
@@ -68,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textSize="@dimen/normal_textsize"
+        android:textColor="@color/black"
         android:text="内容" />
       </LinearLayout>
     </ScrollView>

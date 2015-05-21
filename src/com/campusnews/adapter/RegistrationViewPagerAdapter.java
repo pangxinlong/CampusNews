@@ -9,15 +9,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class RegistrationViewPagerAdapter extends FragmentPagerAdapter implements BasePagerAdapter {
 
-  private String mPath="";
   
   public RegistrationViewPagerAdapter(FragmentManager fm) {
     super(fm);
-
   }
 
   public void setData(String path){
-    mPath=path;
   }
   
   
@@ -30,7 +27,7 @@ public class RegistrationViewPagerAdapter extends FragmentPagerAdapter implement
   @Override
   public Fragment getItem(int postion) {
     ToastUtil.show(postion+"");
-    return RegistrationFragmentFactory.newInstance(postion,mPath);
+    return RegistrationFragmentFactory.newInstance(postion);
   }
 
   @Override

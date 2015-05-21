@@ -2,14 +2,13 @@ package com.campusnews.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.campusnews.R;
 import com.campusnews.fragment.FragmentFactory;
 import com.campusnews.util.BaseApplication;
 
-public class PagerViewPagerAdapter extends FragmentPagerAdapter implements BasePagerAdapter {
+public class PagerViewPagerAdapter extends FragmentStatePagerAdapter implements BasePagerAdapter {
 
   private static final String[] mViewpager_title = new String[] {
       BaseApplication.self.getString(R.string.all_news),
@@ -19,8 +18,12 @@ public class PagerViewPagerAdapter extends FragmentPagerAdapter implements BaseP
       BaseApplication.self.getString(R.string.participate_news),
       BaseApplication.self.getString(R.string.news_news)};
 
+  FragmentManager fm;
+
+
   public PagerViewPagerAdapter(FragmentManager fm) {
     super(fm);
+    this.fm = fm;
 
   }
 
@@ -41,22 +44,7 @@ public class PagerViewPagerAdapter extends FragmentPagerAdapter implements BaseP
 
   @Override
   public int getIconResId(int index) {
-    // TODO Auto-generated method stub
     return 0;
-  }
-
-  @Override
-  public void destroyItem(ViewGroup container, int position, Object object) {
-//     Log.i( "========position Destory=========", position+"");
-    super.destroyItem(container, position, object);
-  }
-
-  @Override
-  public Object instantiateItem(ViewGroup container, int position) {
-//     Log.i("========container.getId()========",container.getId()+"");
-//     Log.i("========getItemId(position)========",getItemId(position)+"");
-    
-    return super.instantiateItem(container, position);
   }
 
 
