@@ -18,6 +18,7 @@ import com.campusnews.annotation.AndroidView;
 import com.campusnews.model.JsonObjectRequestBase;
 import com.campusnews.model.LoadingImage;
 import com.campusnews.model.UserInfo;
+import com.campusnews.util.BaseApplication;
 import com.campusnews.util.PhoneUtils;
 import com.campusnews.util.StaticUrl;
 import com.campusnews.util.ToastUtil;
@@ -95,18 +96,20 @@ public class MenuAccountFragment extends BaseFragment {
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    EventBus.getDefault().register(this);
-    requestData();
+    // EventBus.getDefault().register(this);
+    // requestData();
+    initView();
+
   }
 
   private void initView() {
-    UserInfo.isNews=1;
-    
-    accountType = Integer.valueOf(accountData.result.get(0).type);
-    nickName = accountData.result.get(0).nickname;
-    realName = accountData.result.get(0).name;
+    UserInfo.isNews = 1;
 
-    String url = StaticUrl.baseImageUlr + accountData.result.get(0).icon;
+    accountType = Integer.valueOf(BaseApplication.accountData.type);
+    nickName = BaseApplication.accountData.nickname;
+    realName = BaseApplication.accountData.name;
+
+    String url = StaticUrl.baseImageUlr + BaseApplication.accountData.icon;
     Log.i("=======url========", url);
 
     // 普通用户
@@ -117,11 +120,11 @@ public class MenuAccountFragment extends BaseFragment {
       tv_account_nickname.setText(nickName);
       // im_account_head.
       tv_account_user_name.setText(realName);
-      tv_account_sex.setText(accountData.result.get(0).sex);
-      tv_account_professional.setText(accountData.result.get(0).professional);
-      tv_account_grade.setText(accountData.result.get(0).grade);
+      tv_account_sex.setText(BaseApplication.accountData.sex);
+      tv_account_professional.setText(BaseApplication.accountData.professional);
+      tv_account_grade.setText(BaseApplication.accountData.grade);
 
-      LoadingImage.loadImage(this.getActivity(), im_account_head, url,UserInfo.isNews);
+      LoadingImage.loadImage(this.getActivity(), im_account_head, url, UserInfo.isNews);
     }
     // 社团用户
     else {
@@ -130,9 +133,9 @@ public class MenuAccountFragment extends BaseFragment {
 
       tv_account_oNickname.setText(nickName);
       tv_account_oName.setText(realName);
-      tv_account_phone.setText(accountData.result.get(0).contact_information);
+      tv_account_phone.setText(BaseApplication.accountData.contact_information);
 
-      LoadingImage.loadImage(this.getActivity(), im_account_oHead, url,UserInfo.isNews);
+      LoadingImage.loadImage(this.getActivity(), im_account_oHead, url, UserInfo.isNews);
     }
   }
 
@@ -159,7 +162,7 @@ public class MenuAccountFragment extends BaseFragment {
       this.accountData = accountData;
       UserInfo.userName = accountData.result.get(0).name;
       if (isRequest) {
-        initView();
+        // initView();
         isRequest = false;
       }
     }
@@ -176,7 +179,7 @@ public class MenuAccountFragment extends BaseFragment {
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    EventBus.getDefault().unregister(this);
+    // EventBus.getDefault().unregister(this);
   }
 
 

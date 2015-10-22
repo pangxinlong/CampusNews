@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.campusnewes.bean.AccountBean;
 import com.campusnewes.bean.LoginBean;
-import com.campusnewes.bean.RootPojo;
 import com.campusnews.annotation.AndroidView;
 import com.campusnews.model.JsonObjectRequestBase;
 import com.campusnews.model.UserInfo;
+import com.campusnews.util.BaseApplication;
+import com.campusnews.util.PhoneUtils;
 import com.campusnews.util.StaticUrl;
 import com.campusnews.util.ToastUtil;
 
@@ -60,8 +63,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     EventBus.getDefault().register(this);
 
     initView();
-
-
   }
 
 
@@ -96,17 +97,42 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     jsonObjectRequestBase.makeSampleHttpRequest(LoginBean.class);
   }
 
+  public void requestAccountData(String userId) {
+
+    if (!PhoneUtils.isNetAvailable()) {
+      ToastUtil.show("请检查您的网络");
+      return;
+    }
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("user_id", userId);
+
+    JsonObjectRequestBase jsonObjectRequestBase =
+        new JsonObjectRequestBase(this, params, StaticUrl.Query_acount);
+    jsonObjectRequestBase.makeSampleHttpRequest(AccountBean.class);
+
+  }
+
   public void onEvent(LoginBean response) {
 
     if (response.isSucceed()) {
       ToastUtil.show("登录成功", Toast.LENGTH_SHORT);
-      UserInfo.userId = user_id;
-      UserInfo.loginState=0;//记录登录状态
+      requestAccountData(user_id);
       MainActivity.intoMainActivity(this);
     } else {
-      ToastUtil.show(response.message, Toast.LENGTH_SHORT);
+      ToastUtil.show("登录失败", Toast.LENGTH_SHORT);
+      Log.e("==========LOGIN.message======================", response.message);
     }
   }
+
+  public void onEvent(AccountBean response) {
+    if (response.isSucceed()) {
+      BaseApplication.accountData = response.result.get(0);
+      UserInfo.userId = BaseApplication.accountData.user_id;
+      UserInfo.loginState = 0;// 记录登录状态
+
+    }
+  }
+
 
   @Override
   public void onClick(View view) {

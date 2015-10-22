@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,20 +51,26 @@ public class NewDetailActivity extends BaseActivity {
   @AndroidView(R.id.tv_content)
   TextView tvContent;
 
+  /**
+   * 联系电话
+   */
+  @AndroidView(R.id.tv_phone)
+  TextView tv_phone;
+
+
   ActivitiesListData newsData;
 
-  
-  
-  /** Called when the activity is first created. */  
-  Bitmap bp=null;  
-  ImageView imageview;  
-  float scaleWidth;  
-  float scaleHeight;  
-    
- int h;  
-  boolean num=false; 
-  
-  
+
+  /** Called when the activity is first created. */
+  Bitmap bp = null;
+  ImageView imageview;
+  float scaleWidth;
+  float scaleHeight;
+
+  int h;
+  boolean num = false;
+
+
   @Override
   protected void onCreate(Bundle arg0) {
     super.onCreate(arg0);
@@ -73,14 +80,20 @@ public class NewDetailActivity extends BaseActivity {
 
 
   private void initView() {
-    UserInfo.isNews=0;
-    
+    UserInfo.isNews = 0;
+
     String title = "活动/消息详情";
     TitlebarUtil.setTitleBar(this, TitlebarUtil.PAGE_LEVLE_2, title);
 
     Intent intent = this.getIntent();
     Bundle bundle = intent.getExtras();
     newsData = (ActivitiesListData) bundle.getSerializable("newsData");
+    if (newsData.activity_type ==0) {
+      tv_phone.setVisibility(View.INVISIBLE);
+    } else {
+      tv_phone.setVisibility(View.VISIBLE);
+      tv_phone.setText("联系方式 ： "+newsData.contact_information);
+    }
 
     tvNewsDetailTitle.setText(newsData.title);
     tvPublishPeople.setText(newsData.name);
@@ -94,8 +107,9 @@ public class NewDetailActivity extends BaseActivity {
       tvPublishTime.setText(strDate);
     }
 
-    LoadingImage.loadImage(this, im_newsdetail, StaticUrl.baseImageUlr + newsData.image_path,UserInfo.isNews);
-    
+    LoadingImage.loadImage(this, im_newsdetail, StaticUrl.baseImageUlr + newsData.image_path,
+        UserInfo.isNews);
+
   }
 
   public static void intoNewDetailActivity(Context context, ActivitiesListData newsData) {

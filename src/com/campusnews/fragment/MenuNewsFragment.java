@@ -1,6 +1,7 @@
 package com.campusnews.fragment;
 
 import android.os.Bundle;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -12,11 +13,13 @@ import com.campusnews.R;
 import com.campusnews.adapter.PagerViewPagerAdapter;
 import com.campusnews.annotation.AndroidAutowire;
 import com.campusnews.annotation.AndroidView;
+import com.campusnews.util.BaseApplication;
 
 public class MenuNewsFragment extends BaseFragment {
 
   @AndroidView(R.id.viewpager)
   ViewPager viewpager;
+  
 
   PagerViewPagerAdapter pagerViewPagerAdapter;
 
@@ -30,17 +33,16 @@ public class MenuNewsFragment extends BaseFragment {
     // Toast.makeText(this.getActivity(),textString, Toast.LENGTH_LONG).show();
     return view;
   }
-
-
-  
-
   
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
     pagerViewPagerAdapter = new PagerViewPagerAdapter(getChildFragmentManager());
     viewpager.setAdapter(pagerViewPagerAdapter);
     viewpager.setOffscreenPageLimit(3);
+    
+   
     viewpager.setOnPageChangeListener(new OnPageChangeListener() {
       
       @Override

@@ -72,6 +72,14 @@
         android:textSize="@dimen/normal_textsize"
         android:textColor="@color/black"
         android:text="内容" />
+    
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/normal_textsize"
+        android:textColor="@color/black"/>
       </LinearLayout>
     </ScrollView>
     

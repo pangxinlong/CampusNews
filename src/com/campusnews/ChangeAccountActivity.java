@@ -11,6 +11,7 @@ import com.campusnews.model.ImageUploadRequestBase;
 import com.campusnews.model.JsonObjectRequestBase;
 import com.campusnews.model.LoadingImage;
 import com.campusnews.model.UserInfo;
+import com.campusnews.util.BaseApplication;
 import com.campusnews.util.PhoneUtils;
 import com.campusnews.util.StaticUrl;
 import com.campusnews.util.TitlebarUtil;
@@ -167,7 +168,7 @@ public class ChangeAccountActivity extends BaseActivity implements OnClickListen
     String title = "修改用户";
     TitlebarUtil.setTitleBar(this, TitlebarUtil.PAGE_LEVLE_2, title);
 
-    getAccountData();
+    //getAccountData();
 
     // 判断用户类型
     if (AccounttYpe == UserInfo.ORDINARY_TYPE) {
@@ -181,14 +182,14 @@ public class ChangeAccountActivity extends BaseActivity implements OnClickListen
 
       etRegistration_userId.setText(UserInfo.userId);
       etRegistration_userName.setText(UserInfo.userName);
-      etRegistration_nickname.setText(accountData.result.get(0).nickname);
-      etRegistration_inputPassword.setText(accountData.result.get(0).password);
-      etRegistration_professional.setText(accountData.result.get(0).professional);
-      etRegistration_sex.setText(accountData.result.get(0).sex);
-      etRegistration_grade.setText(accountData.result.get(0).grade);
+      etRegistration_nickname.setText(BaseApplication.accountData.nickname);
+      etRegistration_inputPassword.setText(BaseApplication.accountData.password);
+      etRegistration_professional.setText(BaseApplication.accountData.professional);
+      etRegistration_sex.setText(BaseApplication.accountData.sex);
+      etRegistration_grade.setText(BaseApplication.accountData.grade);
 
       
-      LoadingImage.loadImage(this, imRegistration_head, StaticUrl.baseImageUlr+accountData.result.get(0).icon, UserInfo.isNews);
+      LoadingImage.loadImage(this, imRegistration_head, StaticUrl.baseImageUlr+BaseApplication.accountData.icon, UserInfo.isNews);
       
       rlRegistration_head.setOnClickListener(this);
     } else {
@@ -202,12 +203,12 @@ public class ChangeAccountActivity extends BaseActivity implements OnClickListen
 
       etRegistration_oUser_id.setText(UserInfo.userId);
       et_registration_oName.setText(UserInfo.userName);
-      etRegistration_oNickname.setText(accountData.result.get(0).nickname);
-      et_registration_oInput_password.setText(accountData.result.get(0).password);
-      et_registration_phone.setText(accountData.result.get(0).contact_information);
+      etRegistration_oNickname.setText(BaseApplication.accountData.nickname);
+      et_registration_oInput_password.setText(BaseApplication.accountData.password);
+      et_registration_phone.setText(BaseApplication.accountData.contact_information);
       rl_registration_oHead.setOnClickListener(this);
       
-      LoadingImage.loadImage(this, im_registration_oHead, StaticUrl.baseImageUlr+accountData.result.get(0).icon, UserInfo.isNews);
+      LoadingImage.loadImage(this, im_registration_oHead, StaticUrl.baseImageUlr+BaseApplication.accountData.icon, UserInfo.isNews);
     }
 
     btnComplete.setOnClickListener(this);

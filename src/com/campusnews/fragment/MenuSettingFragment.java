@@ -73,7 +73,9 @@ public class MenuSettingFragment extends BaseFragment implements OnClickListener
   public void onClick(View view) {
     switch (view.getId()) {
       case R.id.rl_account:
-        requestData();
+      //  requestData();
+        ChangeAccountActivity.intoChangeAccountActivity(this.getActivity(), accountData);
+
         ;
         break;
       case R.id.rl_about:

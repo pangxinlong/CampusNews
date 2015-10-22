@@ -44,7 +44,7 @@ public class PagerViewPagerAdapter extends FragmentStatePagerAdapter implements 
 
   @Override
   public int getIconResId(int index) {
-    return 0;
+    return index;
   }
 
 

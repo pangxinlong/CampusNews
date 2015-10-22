@@ -43,6 +43,7 @@ import com.campusnews.annotation.AndroidView;
 import com.campusnews.model.ImageUploadRequestBase;
 import com.campusnews.model.JsonObjectRequestBase;
 import com.campusnews.model.UserInfo;
+import com.campusnews.util.BaseApplication;
 import com.campusnews.util.PhoneUtils;
 import com.campusnews.util.StaticUrl;
 import com.campusnews.util.ToastUtil;
@@ -105,7 +106,7 @@ public class MenuReleasedFragment extends BaseFragment implements OnClickListene
   private int activityType=0;
   private final int PIC_FROM_CAMERA = 1; // 从相机拍摄图片
   private final int PIC_FROM＿LOCALPHOTO = 0;// 从相册选择图片
-  String path;
+  String path1;
   File picFile;
 
   private static final String[] activit_type = {"消息", "参与", "失物认领"};
@@ -124,7 +125,7 @@ public class MenuReleasedFragment extends BaseFragment implements OnClickListene
   private void initView() {
     EventBus.getDefault().register(this);
 
-    tvReleasePeople.setText("发布人 : " + UserInfo.userName);
+    tvReleasePeople.setText("发布人 : " + BaseApplication.accountData.name);
 
     etContactInformation.setVisibility(View.INVISIBLE);
     // 将可选内容与ArrayAdapter连接起来
@@ -289,7 +290,7 @@ public class MenuReleasedFragment extends BaseFragment implements OnClickListene
           if (cursor != null) {
             int colunm_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            path = cursor.getString(colunm_index);
+            path1 = cursor.getString(colunm_index);
             ContentResolver resolver = this.getActivity().getContentResolver();
             Bitmap bm = null;
             try {
@@ -328,13 +329,13 @@ public class MenuReleasedFragment extends BaseFragment implements OnClickListene
   private boolean checkFormat() {
     activity_id = UserInfo.userId + PhoneUtils.getCurrentData();
     user_id = UserInfo.userId;
-    name = UserInfo.userName;// UserInfo.userName;
+    name = BaseApplication.accountData.name;// UserInfo.userName;
     activity_type = activityType;
     title = etActivityTitle.getText().toString();
     content = etActivityContent.getText().toString();
     date = PhoneUtils.getCurrentData();
     contact_information = etContactInformation.getText().toString();
-    image_path = path;
+    image_path = path1;
 
     if (user_id.isEmpty()) {
       LoginActivity.intoLoginActivity(this.getActivity());
@@ -354,7 +355,7 @@ public class MenuReleasedFragment extends BaseFragment implements OnClickListene
         return false;
       }
     } else if (image_path.isEmpty()) {
-      image_path = "/user";
+      image_path = "/image/imagedefault";
     }
     return true;
 

@@ -1,5 +1,7 @@
 package com.campusnews.model;
 
+import com.campusnewes.bean.AccountBean.AccountData;
+
 public class UserInfo {
   /**
    * 未激活状态
@@ -28,7 +30,6 @@ public class UserInfo {
   public static String userId;
   public static String userName;
   public static int userType;
-  
   
   public static int mPage=5;
 }

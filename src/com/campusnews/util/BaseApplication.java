@@ -9,6 +9,7 @@ import android.os.Handler;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.campusnewes.bean.AccountBean.AccountData;
 import com.campusnews.BaseActivity;
 
 public class BaseApplication extends Application{
@@ -16,11 +17,13 @@ public class BaseApplication extends Application{
     public static RequestQueue mQueue;
 	public static BaseApplication self = null;
 	public Handler handlerCommon = new Handler();
+    public static AccountData accountData;
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		self = this;
 		mQueue = Volley.newRequestQueue(BaseApplication.self);
+		accountData=new AccountData();
 	}
 	
 	private List<BaseActivity> mainActivity = new ArrayList<BaseActivity>();  

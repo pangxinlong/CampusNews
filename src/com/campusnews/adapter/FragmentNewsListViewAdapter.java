@@ -22,10 +22,11 @@ import com.campusnews.util.StaticUrl;
 public class FragmentNewsListViewAdapter extends BaseAdapter implements BasePagerAdapter {
 
   Context context;
-  List<ActivitiesListData> listData = new ArrayList<ActivitiesListData>();
+  List<ActivitiesListData> listData;
 
   public FragmentNewsListViewAdapter(Context context) {
     this.context = context;
+    listData= new ArrayList<ActivitiesListData>();
   }
 
   public void setData(List<ActivitiesListData> listData) {

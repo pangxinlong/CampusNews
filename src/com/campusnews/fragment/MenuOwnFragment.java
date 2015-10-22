@@ -1,6 +1,8 @@
 package com.campusnews.fragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.campusnewes.bean.ActivitiesListBean;
+import com.campusnewes.bean.ActivitiesListBean.ActivitiesListData;
 import com.campusnews.NewDetailActivity;
 import com.campusnews.R;
 import com.campusnews.adapter.FragmentNewsListViewAdapter;
@@ -35,7 +39,14 @@ public class MenuOwnFragment extends BaseFragment {
   PullToRefreshListView pull_refresh_list;
 
   private FragmentNewsListViewAdapter mAdapter;
-  ActivitiesListBean listData;
+  private List<ActivitiesListData> listData; 
+
+  private int onRefreshLoad=1;
+  private int onMoreLoad=2;
+  private int refreshType=-1;
+  
+  private int mPageStart=1;
+  public  int mPage=UserInfo.mPage;//消息条数
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +79,7 @@ public class MenuOwnFragment extends BaseFragment {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(listData!=null){
           ToastUtil.show(position+"");
-          NewDetailActivity.intoNewDetailActivity(MenuOwnFragment.this.getActivity(),listData.result.get(position-1));
+          NewDetailActivity.intoNewDetailActivity(MenuOwnFragment.this.getActivity(),listData.get(position-1));
           }
       }
     });
@@ -77,7 +88,9 @@ public class MenuOwnFragment extends BaseFragment {
   /**
    * 初始化数据
    */
-  private void initView() {    
+  private void initView() {
+    listData= new ArrayList<>();
+    
     // 设置下拉刷新和上拉加载更多
     pull_refresh_list.setPullToRefreshOverScrollEnabled(true);
     pull_refresh_list.setMode(Mode.BOTH);
@@ -88,6 +101,8 @@ public class MenuOwnFragment extends BaseFragment {
       public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 
         if (refreshView.isHeaderShown()) {
+          refreshType=onRefreshLoad;
+          mPageStart=1;
           Log.i("", "下拉刷新... ");
           String label =
               DateUtils.formatDateTime(MenuOwnFragment.this.getActivity().getApplicationContext(),
@@ -99,7 +114,11 @@ public class MenuOwnFragment extends BaseFragment {
 
           // Do work to refresh the list here.
           new GetDataTask().execute();
+          requestData();
         } else {
+          refreshType=onMoreLoad;
+          mPageStart=mPageStart+5;
+          mPage=mPage+5;
           Log.i("", "上拉加载更多... ");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setPullLabel("");
@@ -108,7 +127,7 @@ public class MenuOwnFragment extends BaseFragment {
           // y = mListItems.size();
 
           new GetHeaderDataTask().execute();
-
+          requestData();
         }
       }
     });
@@ -182,7 +201,9 @@ public class MenuOwnFragment extends BaseFragment {
   private void requestData() {
 
     HashMap<String, String> params = new HashMap<String, String>();
-    params.put("user_id", UserInfo.userId);
+    params.put("user_id",UserInfo.userId);
+    params.put("pagestart", String.valueOf(mPageStart) );
+    params.put("pageposition",String.valueOf(mPage) );
 
     JsonObjectRequestBase jsonObjectRequestBase =
         new JsonObjectRequestBase(this.getActivity(), params, StaticUrl.Query_activityUrl);
@@ -191,9 +212,23 @@ public class MenuOwnFragment extends BaseFragment {
   
   
   public void onEvent(ActivitiesListBean listData){
+//    if (listData.isSucceed()) {
+//      this.listData=listData;
+//      mAdapter.setData(listData.result);
+//    }
     if (listData.isSucceed()) {
-      this.listData=listData;
-      mAdapter.setData(listData.result);
+      if(refreshType==onRefreshLoad){//下拉刷新
+        this.listData.clear();
+        this.listData.addAll(listData.result); 
+        mAdapter.setData(this.listData);
+      }else{//上拉加载
+        if(listData.result.size()==0){
+          Toast.makeText(this.getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
+        }else{
+          this.listData.addAll(listData.result); 
+          mAdapter.setData(this.listData);
+        }
+      }
     }
   }
 

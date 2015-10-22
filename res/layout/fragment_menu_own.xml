@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:layout_width="100dip"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
@@ -14,7 +14,8 @@
         android:focusableInTouchMode="true"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
-        android:text="我的消息 我的消息 我的消息 我的消息" />
+        android:textSize="17sp"
+        android:text="                                                                                 我的消息                                                                                  我的消息" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/pull_refresh_list"

@@ -23,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.campusnewes.bean.ActivitiesListBean;
 import com.campusnewes.bean.LoginBean;
@@ -63,14 +64,18 @@ public class FragmentNews extends BaseFragment {
   private int activityType;
   private static final String news="";
   
-  
-  List<ActivitiesListData> listData = new ArrayList<ActivitiesListData>();
+  private List<ActivitiesListData> listData; 
 
+  private int onRefreshLoad=1;
+  private int onMoreLoad=2;
+  private int refreshType=-1;
+  
+  
   // 图片下面的小圆点
   private int[] listbutton = {R.id.imageView1, R.id.imageView2, R.id.imageView3};
   List<Integer> list;
   
-  
+  private int mPageStart=1;
   public  int mPage=UserInfo.mPage;//消息条数
 
   @Override
@@ -98,9 +103,18 @@ public class FragmentNews extends BaseFragment {
     super.onCreate(savedInstanceState);
     // 图片数据
     list = new ArrayList<Integer>();
-    list.add(R.drawable.img1);
-    list.add(R.drawable.img2);
-    list.add(R.drawable.img3);
+    list.add(R.drawable.xiaoyuan1);
+    list.add(R.drawable.xiaoyuan2);
+    list.add(R.drawable.xiaoyuan3);
+    list.add(R.drawable.xiaoyuan4);
+    list.add(R.drawable.xiaoyuan5);
+    list.add(R.drawable.xiaoyuan6);
+    list.add(R.drawable.xiaoyuan7);
+    list.add(R.drawable.xiaoyuan8);
+    list.add(R.drawable.xiaoyuan9);
+    list.add(R.drawable.xiaoyuan10);
+    list.add(R.drawable.xiaoyuan11);
+    
   }
 
 
@@ -148,7 +162,9 @@ public class FragmentNews extends BaseFragment {
 
     // params.put("user_id", user_id);
     // params.put("pwd", pwd);
+    params.put("pagestart", String.valueOf(mPageStart));
     params.put("pageposition", String.valueOf(mPage));
+    Log.i("==pxl=mPage==",String.valueOf(mPage));
     JsonObjectRequestBase jsonObjectRequestBase =
         new JsonObjectRequestBase(this.getActivity(), params, StaticUrl.Query_activityUrl);
     jsonObjectRequestBase.makeSampleHttpRequest(ActivitiesListBean.class);
@@ -159,9 +175,18 @@ public class FragmentNews extends BaseFragment {
   public void onEvent(ActivitiesListBean listData) {
 
     if (listData.isSucceed()) {
-      this.listData = listData.result;
-      mAdapter.setData(this.listData);
-      mPage=mPage+5;
+      if(refreshType==onRefreshLoad){//下拉刷新
+        this.listData.clear();
+        this.listData.addAll(listData.result); 
+        mAdapter.setData(this.listData);
+      }else{//上拉加载
+        if(listData.result.size()==0){
+          Toast.makeText(this.getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
+        }else{
+          this.listData.addAll(listData.result); 
+          mAdapter.setData(this.listData);
+        }
+      }
     }
   }
 
@@ -179,7 +204,7 @@ public class FragmentNews extends BaseFragment {
           message.obj = position++;
           message.what = location;
           handler.sendMessage(message);
-          if (position >= list.size()) {
+          if (position >= 3) {
             position = 0;
           }
           SystemClock.sleep(4000);
@@ -200,6 +225,9 @@ public class FragmentNews extends BaseFragment {
   };
 
   private void initView() {
+    
+    listData= new ArrayList<>();
+    listData.clear();
     UserInfo.isNews=0;
     
     // 设置header
@@ -270,6 +298,9 @@ public class FragmentNews extends BaseFragment {
       public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 
         if (refreshView.isHeaderShown()) {
+          refreshType=onRefreshLoad;
+          mPageStart=1;
+//          mPage=5;
           Log.i("", "下拉刷新... ");
           String label =
               DateUtils.formatDateTime(FragmentNews.this.getActivity().getApplicationContext(),
@@ -281,8 +312,11 @@ public class FragmentNews extends BaseFragment {
 
           // Do work to refresh the list here.
           new GetDataTask().execute();
-        } else {
           requestData();
+        } else {
+          refreshType=onMoreLoad;
+          mPageStart=mPageStart+5;
+          mPage=mPage+5;
           Log.i("", "上拉加载更多... ");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setLastUpdatedLabel("上拉加载");
           pull_refresh_list.getLoadingLayoutProxy(false, true).setPullLabel("");
@@ -290,7 +324,7 @@ public class FragmentNews extends BaseFragment {
           pull_refresh_list.getLoadingLayoutProxy(false, true).setReleaseLabel("放开以加载");
           // y = mListItems.size();
           new GetHeaderDataTask().execute();
-
+          requestData();
         }
       }
     });

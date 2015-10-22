@@ -30,7 +30,7 @@
                 android:singleLine="true"
                 android:text="标题"
                 android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_news_activity_content"
@@ -38,8 +38,10 @@
                 android:layout_height="0dp"
                 android:layout_weight="4"
                 android:paddingLeft="5dp"
-                android:lines="3"
+                android:lines="2"
                 android:ellipsize="end"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
                 android:text="内容" />
         </LinearLayout>
     </LinearLayout>
@@ -47,6 +49,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="@color/all_backcolor"/>
 
 </LinearLayout>

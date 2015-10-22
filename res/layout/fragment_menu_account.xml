@@ -289,7 +289,7 @@
                     android:layout_height="40dp"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/im_arrow2"
-                    android:background="@drawable/ic_launcher" />
+                    android:background="@drawable/default_pic" />
 
                 <ImageView
                     android:id="@+id/im_arrow2"
